@@ -34,6 +34,7 @@ class ProductSeeder extends Seeder
                 'price' => 85000,
                 'stock' => 25,
                 'category_id' => $categories->where('name', 'Makanan & Minuman')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'kopi arabica gasyo.jpeg',
             ],
             [
                 'name' => 'Sambal Bawang Homemade',
@@ -41,6 +42,7 @@ class ProductSeeder extends Seeder
                 'price' => 35000,
                 'stock' => 50,
                 'category_id' => $categories->where('name', 'Makanan & Minuman')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'sambal bawang.jpeg',
             ],
             
             // Fashion Products
@@ -50,6 +52,7 @@ class ProductSeeder extends Seeder
                 'price' => 450000,
                 'stock' => 10,
                 'category_id' => $categories->where('name', 'Fashion')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'batik tulis.jpeg',
             ],
             [
                 'name' => 'Tas Anyaman Pandan',
@@ -57,6 +60,7 @@ class ProductSeeder extends Seeder
                 'price' => 175000,
                 'stock' => 15,
                 'category_id' => $categories->where('name', 'Fashion')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'tas anyaman.jpeg',
             ],
             
             // Craft Products
@@ -66,6 +70,7 @@ class ProductSeeder extends Seeder
                 'price' => 650000,
                 'stock' => 5,
                 'category_id' => $categories->where('name', 'Kerajinan Tangan')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'patungkayu.jpg',
             ],
             [
                 'name' => 'Gantungan Kunci Resin',
@@ -73,6 +78,7 @@ class ProductSeeder extends Seeder
                 'price' => 25000,
                 'stock' => 100,
                 'category_id' => $categories->where('name', 'Kerajinan Tangan')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'gantungakunci.jpeg',
             ],
             
             // Home Decor Products
@@ -82,6 +88,7 @@ class ProductSeeder extends Seeder
                 'price' => 275000,
                 'stock' => 8,
                 'category_id' => $categories->where('name', 'Dekorasi Rumah')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'lampuhias.jpeg',
             ],
             [
                 'name' => 'Hiasan Dinding Macramé',
@@ -89,14 +96,22 @@ class ProductSeeder extends Seeder
                 'price' => 150000,
                 'stock' => 12,
                 'category_id' => $categories->where('name', 'Dekorasi Rumah')->first()?->id ?? $categories->first()->id,
+                'image_file' => 'hiasan dinding macrame.jpeg',
             ],
         ];
 
-        // Insert products
+        // Insert products with images
         foreach ($products as $productData) {
+            // Handle image path if image_file is specified
+            if (isset($productData['image_file'])) {
+                // Since images are already in storage/products/, just set the path
+                $productData['image_path'] = 'products/' . $productData['image_file'];
+                unset($productData['image_file']);
+            }
+            
             Product::create($productData);
         }
 
-        $this->command->info('Sample products seeded successfully!');
+        $this->command->info('Sample products seeded successfully with images!');
     }
 }
