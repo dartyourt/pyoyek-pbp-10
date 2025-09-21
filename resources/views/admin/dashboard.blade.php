@@ -47,7 +47,16 @@
                                         Manage Categories
                                     </a>
                                 </li>
-                                <!-- Add more links as needed -->
+                                <li>
+                                    <a href="{{ route('admin.products.index') }}" class="text-blue-600 hover:underline">
+                                        Manage Products
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('catalog.index') }}" class="text-blue-600 hover:underline">
+                                        View Catalog
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         
