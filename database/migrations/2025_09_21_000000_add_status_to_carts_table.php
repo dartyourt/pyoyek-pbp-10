@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('carts', function (Blueprint $table) {
             $table->enum('status', ['active', 'completed', 'abandoned'])->default('active')->after('user_id');
+            $table->unique(['user_id', 'status']);
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('carts', function (Blueprint $table) {
+            $table->dropUnique(['user_id', 'status']);
             $table->dropColumn('status');
         });
     }

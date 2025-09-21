@@ -20,9 +20,10 @@ class Order extends Model
         'user_id',
         'total',
         'status',
-        'address',
-        'phone',
-        'notes',
+        'shipping_address',
+        'shipping_city',
+        'shipping_postal_code',
+        'payment_proof_path',
     ];
 
     /**

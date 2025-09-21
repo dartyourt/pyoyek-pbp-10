@@ -85,9 +85,9 @@
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         
                                         <div class="mb-4">
-                                            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                                            <label for="qty" class="block text-sm font-medium text-gray-700">Quantity</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <input type="number" name="quantity" id="quantity" min="1" max="{{ $product->stock }}" value="1" 
+                                                <input type="number" name="qty" id="qty" min="1" max="{{ $product->stock }}" value="1" 
                                                     class="block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                     @disabled($product->stock <= 0)>
                                             </div>
