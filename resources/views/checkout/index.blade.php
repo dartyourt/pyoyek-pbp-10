@@ -19,8 +19,8 @@
                                 @foreach($cartItems as $item)
                                     <div class="flex items-center space-x-4 border-b border-gray-200 pb-4">
                                         <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
-                                            @if($item->product->image)
-                                                <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}"
+                                            @if($item->product->image_path)
+                                                <img src="{{ asset('storage/' . $item->product->image_path) }}" alt="{{ $item->product->name }}"
                                                     class="w-full h-full object-cover">
                                             @else
                                                 <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">

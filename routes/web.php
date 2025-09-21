@@ -46,6 +46,9 @@ Route::prefix('admin')->middleware(['auth', 'can:admin'])->name('admin.')->group
     
     // Product Management
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    
+    // Order Management
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except(['create', 'store', 'destroy']);
 });
 
 Route::middleware('auth')->group(function () {

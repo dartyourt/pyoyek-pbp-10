@@ -53,6 +53,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('admin.orders.index') }}" class="text-blue-600 hover:underline">
+                                        Manage Orders
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('catalog.index') }}" class="text-blue-600 hover:underline">
                                         View Catalog
                                     </a>

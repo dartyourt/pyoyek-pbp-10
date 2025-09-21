@@ -1,98 +1,68 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Create New Product') }}
-            </h2>
-            <a href="{{ route('admin.products.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                Back to Products
-            </a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Add New Product') }}
+        </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        <!-- Name -->
                         <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name *</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            @error('name')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Description -->
                         <div class="mb-4">
-                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                            <textarea name="description" id="description" rows="4"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('description') }}</textarea>
-                            @error('description')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="description" id="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ old('description') }}</textarea>
+                            @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Price -->
                         <div class="mb-4">
-                            <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price (Rp) *</label>
-                            <input type="number" name="price" id="price" value="{{ old('price') }}" step="0.01" min="0"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            @error('price')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="number" name="price" id="price" value="{{ old('price') }}" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            @error('price') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Stock -->
                         <div class="mb-4">
-                            <label for="stock" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock *</label>
-                            <input type="number" name="stock" id="stock" value="{{ old('stock', 0) }}" min="0"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            @error('stock')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                            <input type="number" name="stock" id="stock" value="{{ old('stock') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            @error('stock') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Category -->
                         <div class="mb-4">
-                            <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category *</label>
-                            <select name="category_id" id="category_id"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                                <option value="">Select a category</option>
+                            <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
+                            <select name="category_id" id="category_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                <option value="">Select Category</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                 @endforeach
                             </select>
-                            @error('category_id')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            @error('category_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Image -->
                         <div class="mb-4">
-                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Image</label>
-                            <input type="file" name="image" id="image" accept="image/*"
-                                class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Upload a product image (JPEG, PNG, JPG, GIF - Max 2MB)</p>
-                            @error('image')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" name="image" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*">
+                            @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Submit -->
-                        <div class="flex items-center justify-end">
-                            <a href="{{ route('admin.products.index') }}" class="mr-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                                Cancel
-                            </a>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Create Product
-                            </button>
+                        <div class="mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <span class="ml-2 text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <a href="{{ route('admin.products.index') }}" class="mr-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</a>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Product</button>
                         </div>
                     </form>
                 </div>

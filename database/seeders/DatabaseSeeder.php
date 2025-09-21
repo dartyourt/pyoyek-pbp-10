@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         // Create Demo Categories
         $this->call([
             CategorySeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
