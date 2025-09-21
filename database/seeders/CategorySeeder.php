@@ -14,20 +14,20 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Makanan',
-                'description' => 'Berbagai jenis makanan UMKM',
-            ],
-            [
-                'name' => 'Minuman',
-                'description' => 'Berbagai jenis minuman UMKM',
-            ],
-            [
-                'name' => 'Kerajinan',
-                'description' => 'Produk kerajinan tangan UMKM',
+                'name' => 'Makanan & Minuman',
+                'description' => 'Berbagai jenis makanan dan minuman UMKM',
             ],
             [
                 'name' => 'Fashion',
                 'description' => 'Produk fashion dan pakaian UMKM',
+            ],
+            [
+                'name' => 'Kerajinan Tangan',
+                'description' => 'Produk kerajinan tangan UMKM',
+            ],
+            [
+                'name' => 'Dekorasi Rumah',
+                'description' => 'Produk dekorasi dan aksesoris rumah UMKM',
             ],
             [
                 'name' => 'Aksesoris',

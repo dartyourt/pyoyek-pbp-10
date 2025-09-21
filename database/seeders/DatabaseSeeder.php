@@ -25,7 +25,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@example.com',
         ]);
 
-        // Create Demo Categories
+        // Copy sample product images to storage
+        $this->call(CopyProductImagesSeeder::class);
+        
+        // Create Demo Categories and Products
         $this->call([
             CategorySeeder::class,
             ProductSeeder::class,
