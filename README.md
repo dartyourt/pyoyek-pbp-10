@@ -152,11 +152,3 @@ routes/
   └── web.php           # Definisi route
 ```
 
-## Screenshot
-
-![Screenshot Katalog Produk](https://via.placeholder.com/800x400?text=Katalog+Produk)
-![Screenshot Admin Dashboard](https://via.placeholder.com/800x400?text=Admin+Dashboard)
-
-## Lisensi
-
-Aplikasi ini dilisensikan di bawah [MIT license](https://opensource.org/licenses/MIT).
