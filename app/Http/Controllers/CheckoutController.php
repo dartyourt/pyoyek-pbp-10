@@ -14,6 +14,13 @@ class CheckoutController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->isAdmin()) {
+                return redirect()->route('admin.dashboard')
+                    ->with('warning', 'Administrators should use the admin dashboard to manage products and orders.');
+            }
+            return $next($request);
+        });
     }
 
     /**
@@ -95,8 +102,8 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->qty);
             }
 
-            // Mark cart as completed
-            $cart->update(['status' => 'completed']);
+            // Delete cart after order is created
+            $cart->delete();
         });
 
         return redirect()->route('orders.show', $order)
