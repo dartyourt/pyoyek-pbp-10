@@ -50,7 +50,7 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string|max:500',
             'shipping_city' => 'required|string|max:100',
-            'shipping_postal_code' => 'required|string|max:10',
+            'shipping_postal_code' => 'required|string|regex:/^[0-9]+$/|max:5',
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
