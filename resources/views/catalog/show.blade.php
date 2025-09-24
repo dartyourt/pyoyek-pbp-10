@@ -79,6 +79,7 @@
                             </div>
                             
                             @auth
+                                @if(!auth()->user()->isAdmin())
                                 <div class="mt-6">
                                     <form action="{{ route('cart.add') }}" method="POST">
                                         @csrf
@@ -104,6 +105,11 @@
                                         </button>
                                     </form>
                                 </div>
+                                @else
+                                <div class="mt-6">
+                                    <p class="text-sm text-gray-600">You are logged in as an administrator. Administrators cannot make purchases.</p>
+                                </div>
+                                @endif
                             @else
                                 <div class="mt-6">
                                     <a href="{{ route('login') }}" 

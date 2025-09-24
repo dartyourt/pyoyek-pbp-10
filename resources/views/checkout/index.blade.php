@@ -64,7 +64,7 @@
                                     </div>
                                     <div>
                                         <label for="shipping_postal_code" class="block text-sm font-medium text-gray-700">Postal Code *</label>
-                                        <input type="text" id="shipping_postal_code" name="shipping_postal_code" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('shipping_postal_code') }}" required>
+                                        <input type="number" id="shipping_postal_code" name="shipping_postal_code" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('shipping_postal_code') }}" min="0" max="99999" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                     </div>
                                 </div>
 

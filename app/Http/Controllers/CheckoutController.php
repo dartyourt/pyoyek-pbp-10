@@ -14,6 +14,13 @@ class CheckoutController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->isAdmin()) {
+                return redirect()->route('admin.dashboard')
+                    ->with('warning', 'Administrators should use the admin dashboard to manage products and orders.');
+            }
+            return $next($request);
+        });
     }
 
     /**
@@ -43,7 +50,7 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string|max:500',
             'shipping_city' => 'required|string|max:100',
-            'shipping_postal_code' => 'required|string|max:10',
+            'shipping_postal_code' => 'required|string|regex:/^[0-9]+$/|max:5',
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -95,8 +102,8 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->qty);
             }
 
-            // Mark cart as completed
-            $cart->update(['status' => 'completed']);
+            // Delete cart after order is created
+            $cart->delete();
         });
 
         return redirect()->route('orders.show', $order)

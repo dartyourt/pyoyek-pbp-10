@@ -10,6 +10,20 @@ use App\Models\CartItem;
 class CartController extends Controller
 {
     /**
+     * Constructor to add middleware
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->check() && auth()->user()->isAdmin()) {
+                return redirect()->route('admin.dashboard')
+                    ->with('warning', 'Administrators should use the admin dashboard to manage products and orders.');
+            }
+            return $next($request);
+        });
+    }
+
+    /**
      * Display the contents of the cart.
      */
     public function index()
