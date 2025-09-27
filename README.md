@@ -1,6 +1,12 @@
 # UMKM Mini Commerce
 
-Aplikasi E-Commerce sederhana untuk UMKM (Usaha Mikro Kecil Menengah) yang dibangun menggunakan Laravel 12, Breeze, dan Tailwind CSS.
+Aplikasi E-Commerce sederhana untuk UMKM (Usaha Mikro Kecil Menengah) yang dibangun menggunakan Laravel 12, Breeze, dan Tailwind CSS. Aplikasi ini dirancang untuk membantu pelaku UMKM dalam memasarkan produk mereka secara online dengan fitur-fitur dasar e-commerce seperti katalog produk, keranjang belanja, dan sistem pemesanan.
+
+## Tentang Aplikasi
+
+UMKM Mini Commerce menyediakan platform yang mudah digunakan bagi para pemilik UMKM untuk menjual produk mereka secara online. Aplikasi ini memiliki dua jenis pengguna utama:
+- **Admin**: Dapat mengelola produk, kategori, pesanan, dan pengguna
+- **User**: Dapat menjelajahi produk, menambahkan ke keranjang, dan melakukan pemesanan
 
 ## Persyaratan Sistem
 
@@ -79,10 +85,18 @@ php artisan migrate
 php artisan db:seed
 ```
 
-### 8. Jalankan Aplikasi
+### 8. Buat Symbolic Link untuk Storage
 
 ```bash
+php artisan storage:link
+```
 
+Langkah ini penting untuk memastikan file/gambar yang diupload dapat diakses secara publik.
+
+### 9. Jalankan Aplikasi
+
+```bash
+php artisan serve
 ```
 
 Setelah itu, aplikasi dapat diakses melalui `http://localhost:8000`
@@ -119,10 +133,6 @@ Aplikasi ini menggunakan beberapa tabel utama:
 - `orders` - Pesanan yang dibuat
 - `order_items` - Item dalam pesanan
 
-## Kontribusi
-
-Kontribusi dan saran sangat diterima. Silakan buat issue atau pull request jika Anda ingin berkontribusi pada project ini.
-
 ## Struktur Proyek
 
 ```
@@ -149,6 +159,7 @@ resources/
       └── catalog/      # View untuk katalog
   
 routes/
-  └── web.php           # Definisi route
+  ├── web.php           # Definisi route web
+  └── api.php           # Definisi route API
 ```
 
