@@ -82,7 +82,7 @@ php artisan db:seed
 ### 8. Jalankan Aplikasi
 
 ```bash
-php artisan serve
+
 ```
 
 Setelah itu, aplikasi dapat diakses melalui `http://localhost:8000`
