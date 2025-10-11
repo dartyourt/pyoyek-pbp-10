@@ -28,7 +28,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $request->session()->flash('success', 'You have successfully logged in!');
+
+        return redirect()->intended(route('catalog.index', absolute: false));
     }
 
     /**

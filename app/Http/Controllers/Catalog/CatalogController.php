@@ -58,7 +58,17 @@ class CatalogController extends Controller
         // Get all categories for the filter
         $categories = Category::orderBy('name')->get();
 
-        return view('catalog.index', compact('products', 'categories', 'categoryId', 'search', 'sort'));
+        // Get curated products for promotional sections
+        $fashionCategory = Category::where('name', 'Fashion')->first();
+        $foodCategory = Category::where('name', 'Makanan & Minuman')->first();
+
+        $fashionProducts = $fashionCategory ? Product::where('category_id', $fashionCategory->id)->take(2)->get() : collect();
+        $foodProducts = $foodCategory ? Product::where('category_id', $foodCategory->id)->take(2)->get() : collect();
+
+        return view('catalog.index', compact(
+            'products', 'categories', 'categoryId', 'search', 'sort', 
+            'fashionProducts', 'foodProducts', 'fashionCategory', 'foodCategory'
+        ));
     }
 
     /**
