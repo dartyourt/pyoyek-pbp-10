@@ -81,7 +81,7 @@
                             @auth
                                 @if(!auth()->user()->isAdmin())
                                 <div class="mt-6">
-                                    <form action="{{ route('cart.add') }}" method="POST">
+                                    <form action="{{ route('cart.add') }}" method="POST" data-ajax="add-to-cart">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         
