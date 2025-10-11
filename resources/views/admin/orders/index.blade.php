@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Manage Orders') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if(session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                             {{ session('success') }}
@@ -17,7 +17,7 @@
 
                     <!-- Filter Form -->
                     <form method="GET" action="{{ route('admin.orders.index') }}" class="mb-4 flex gap-2">
-                        <select name="status" class="border-gray-300 rounded-md shadow-sm px-3 py-2">
+                        <select name="status" class="border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm px-3 py-2">
                             <option value="">All Status</option>
                             <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
                             <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
@@ -33,35 +33,35 @@
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>
-                                <tr class="bg-gray-50">
-                                    <th class="px-4 py-2 text-left">Order ID</th>
-                                    <th class="px-4 py-2 text-left">Customer</th>
-                                    <th class="px-4 py-2 text-left">Total</th>
-                                    <th class="px-4 py-2 text-left">Status</th>
-                                    <th class="px-4 py-2 text-left">Date</th>
-                                    <th class="px-4 py-2 text-left">Actions</th>
+                                <tr class="bg-gray-50 dark:bg-gray-700">
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Order ID</th>
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Customer</th>
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Total</th>
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Status</th>
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Date</th>
+                                    <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
-                                    <tr class="border-t">
+                                    <tr class="border-t dark:border-gray-700">
                                         <td class="px-4 py-2">#{{ $order->id }}</td>
                                         <td class="px-4 py-2">{{ $order->user->name }}</td>
                                         <td class="px-4 py-2">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                                         <td class="px-4 py-2">
                                             <span class="px-2 py-1 rounded text-xs 
-                                                @if($order->status == 'diproses') bg-yellow-100 text-yellow-800
-                                                @elseif($order->status == 'dikirim') bg-blue-100 text-blue-800
-                                                @elseif($order->status == 'selesai') bg-green-100 text-green-800
-                                                @else bg-red-100 text-red-800
+                                                @if($order->status == 'diproses') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                                @elseif($order->status == 'dikirim') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                                @elseif($order->status == 'selesai') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                                @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
                                                 @endif">
                                                 {{ ucfirst($order->status) }}
                                             </span>
                                         </td>
                                         <td class="px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
                                         <td class="px-4 py-2">
-                                            <a href="{{ route('admin.orders.show', $order) }}" class="text-blue-600 hover:underline mr-2">View</a>
-                                            <a href="{{ route('admin.orders.edit', $order) }}" class="text-yellow-600 hover:underline">Update Status</a>
+                                            <a href="{{ route('admin.orders.show', $order) }}" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">View</a>
+                                            <a href="{{ route('admin.orders.edit', $order) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Update Status</a>
                                         </td>
                                     </tr>
                                 @empty

@@ -21,10 +21,6 @@ class ProductSeeder extends Seeder
             return;
         }
 
-        // Clear existing products
-        // Product::truncate(); // Can't use truncate due to foreign key constraints
-        Product::query()->delete();
-
         // Sample products data
         $products = [
             // Food & Beverage Products
@@ -100,18 +96,21 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // Insert products with images
+        // Insert or update products
         foreach ($products as $productData) {
-            // Handle image path if image_file is specified
+            // Handle image path
             if (isset($productData['image_file'])) {
-                // Since images are already in storage/products/, just set the path
                 $productData['image_path'] = 'products/' . $productData['image_file'];
                 unset($productData['image_file']);
             }
             
-            Product::create($productData);
+            // Use name to uniquely identify product
+            Product::updateOrCreate(
+                ['name' => $productData['name']],
+                $productData
+            );
         }
 
-        $this->command->info('Sample products seeded successfully with images!');
+        $this->command->info('Sample products seeded successfully!');
     }
 }

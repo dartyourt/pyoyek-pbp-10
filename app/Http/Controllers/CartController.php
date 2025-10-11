@@ -78,7 +78,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        return redirect()->route('catalog.show', $product)->with('success', 'Product added to cart successfully!');
     }
 
     /**

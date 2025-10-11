@@ -19,8 +19,14 @@
                                         
                                         <!-- Left: Foto -->
                                         <div class="flex items-center gap-4 flex-1">
-                                            @if($order->orderItems->isNotEmpty() && $order->orderItems->first()->product)
-                                                <img src="{{ asset('storage/' . $order->orderItems->first()->product->image_path) }}" 
+                                            @php
+                                                $firstItemWithProduct = $order->orderItems->first(function ($item) {
+                                                    return $item->product !== null;
+                                                });
+                                            @endphp
+
+                                            @if($firstItemWithProduct)
+                                                <img src="{{ asset('storage/' . $firstItemWithProduct->product->image_path) }}" 
                                                      alt="Product" 
                                                      class="h-16 w-16 rounded-lg object-cover border dark:border-gray-600 hover:scale-105 transition" />
                                             @else
