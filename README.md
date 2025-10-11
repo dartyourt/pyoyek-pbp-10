@@ -20,6 +20,7 @@ UMKM Mini Commerce menyediakan platform yang mudah digunakan bagi para pemilik U
 - Laravel 12
 - Tailwind CSS
 - Breeze untuk autentikasi
+
 - MySQL
 - AlpineJS
 
@@ -93,13 +94,21 @@ php artisan storage:link
 
 Langkah ini penting untuk memastikan file/gambar yang diupload dapat diakses secara publik.
 
-### 9. Jalankan Aplikasi
+### 9. Jalankan Aplikasi untuk Pengembangan
 
+Untuk pengembangan, Anda perlu menjalankan dua proses secara bersamaan di terminal yang berbeda:
+
+**1. Jalankan Server PHP:**
 ```bash
 php artisan serve
 ```
 
-Setelah itu, aplikasi dapat diakses melalui `http://localhost:8000`
+**2. Jalankan Server Vite (di terminal terpisah):**
+```bash
+npm run dev
+```
+
+Aplikasi akan dapat diakses di `http://localhost:8000`, dan perubahan pada file JavaScript atau CSS akan di-update secara otomatis oleh Vite.
 
 ## Fitur Aplikasi
 
