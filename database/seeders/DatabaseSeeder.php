@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
 
         // Copy sample product images to storage
         $this->call(CopyProductImagesSeeder::class);
+
+        // Copy UI images to storage
+        $this->call(UiImagesSeeder::class);
         
         // Create Demo Categories and Products
         $this->call([
