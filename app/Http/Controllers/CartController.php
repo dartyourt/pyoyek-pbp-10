@@ -29,6 +29,11 @@ class CartController extends Controller
     public function index()
     {
         $cart = auth()->user()->cart;
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json($this->formatCartResponse($cart));
+        }
+
         return view('cart.index', compact('cart'));
     }
 
@@ -63,6 +68,16 @@ class CartController extends Controller
             ]);
         }
 
+        $cart->load('cartItems.product');
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to cart successfully!',
+                'cart' => $this->formatCartResponse($cart),
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
@@ -83,6 +98,16 @@ class CartController extends Controller
         $cartItem->qty = $request->qty;
         $cartItem->save();
 
+        $cart = $cartItem->cart()->with('cartItems.product')->first();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart updated successfully.',
+                'cart' => $this->formatCartResponse($cart),
+            ]);
+        }
+
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
     }
 
@@ -98,6 +123,49 @@ class CartController extends Controller
 
         $cartItem->delete();
 
+        $cart = $cartItem->cart()->with('cartItems.product')->first();
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from cart.',
+                'cart' => $this->formatCartResponse($cart),
+            ]);
+        }
+
         return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
+    }
+
+    /**
+     * Format a cart model into a simple array for JSON responses.
+     */
+    private function formatCartResponse($cart)
+    {
+        if (! $cart) {
+            return [
+                'items_count' => 0,
+                'subtotal' => 0,
+                'items' => [],
+            ];
+        }
+
+        $items = $cart->cartItems->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'product_id' => $item->product_id,
+                'product_name' => optional($item->product)->name,
+                'qty' => $item->qty,
+                'price' => $item->price,
+                'total' => $item->price * $item->qty,
+            ];
+        })->toArray();
+
+        $subtotal = array_sum(array_column($items, 'total'));
+
+        return [
+            'items_count' => array_sum(array_column($items, 'qty')),
+            'subtotal' => $subtotal,
+            'items' => $items,
+        ];
     }
 }
