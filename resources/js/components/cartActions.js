@@ -9,6 +9,32 @@
                 const qtyInput = form.querySelector('input[name="qty"]');
                 if (!btn || !qtyInput) return;
 
+                // optimistic update: compute new totals immediately
+                const oldQty = parseInt(qtyInput.getAttribute('value') || qtyInput.value, 10);
+                const newQty = parseInt(qtyInput.value, 10);
+                const row = form.closest('tr');
+                const priceText = row.querySelector('td:nth-child(2) p');
+                const price = priceText ? parseInt(priceText.textContent.replace(/[^0-9]/g, ''), 10) : 0;
+                const rowTotalElem = row.querySelector('.cart-row-total');
+                const subtotalElem = document.querySelector('.cart-subtotal');
+
+                // store previous values for rollback
+                const prevRowTotal = rowTotalElem ? rowTotalElem.textContent : null;
+                const prevSubtotal = subtotalElem ? subtotalElem.textContent : null;
+
+                // update UI immediately
+                if (rowTotalElem) {
+                    const newLineTotal = price * newQty;
+                    rowTotalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(newLineTotal);
+                }
+
+                if (subtotalElem) {
+                    // parse numeric subtotal and adjust
+                    const numeric = parseInt(subtotalElem.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+                    const newSubtotal = numeric + (price * (newQty - oldQty));
+                    subtotalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(newSubtotal);
+                }
+
                 const originalText = btn.innerHTML;
                 btn.disabled = true;
                 btn.innerHTML = 'Updating...';
@@ -23,18 +49,19 @@
                         if (data.cart) window.dispatchEvent(new CustomEvent('cart.updated', { detail: data.cart }));
                         else window.dispatchEvent(new CustomEvent('cart.updated'));
 
-                        // Optionally update row total and subtotal if returned
-                        if (data.item && data.item.line_total) {
-                            const row = form.closest('tr');
-                            const totalElem = row.querySelector('.cart-row-total');
-                            if (totalElem) totalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.item.line_total);
+                        // if server returns authoritative totals, set them
+                        if (data.item && data.item.line_total && rowTotalElem) {
+                            rowTotalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.item.line_total);
                         }
-                        if (data.cart && data.cart.subtotal !== undefined) {
-                            const subtotalElem = document.querySelector('.cart-subtotal');
-                            if (subtotalElem) subtotalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.cart.subtotal);
+                        if (data.cart && data.cart.subtotal !== undefined && subtotalElem) {
+                            subtotalElem.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.cart.subtotal);
                         }
                     })
                     .catch(err => {
+                        // rollback to previous totals on error
+                        if (rowTotalElem && prevRowTotal !== null) rowTotalElem.textContent = prevRowTotal;
+                        if (subtotalElem && prevSubtotal !== null) subtotalElem.textContent = prevSubtotal;
+
                         let msg = 'Failed to update cart.';
                         if (err.response && err.response.data && err.response.data.message) msg = err.response.data.message;
                         window.dispatchEvent(new CustomEvent('toast', { detail: { message: msg, type: 'error' } }));
@@ -42,6 +69,8 @@
                     .finally(() => {
                         btn.disabled = false;
                         btn.innerHTML = originalText;
+                        // update input value attribute to new value so subsequent edits use updated oldQty
+                        qtyInput.setAttribute('value', qtyInput.value);
                     });
             });
         });
