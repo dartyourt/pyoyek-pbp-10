@@ -4,17 +4,17 @@
     <div x-data="{
         slides: [
             { 
-                image: '{{ asset('storage/products/header.jpeg') }}', 
+                image: '{{ asset('storage/ui/header.jpeg') }}', 
                 slogan: 'Cita Rasa Asli Nusantara', 
                 subSlogan: 'Kualitas Mendunia' 
             },
             { 
-                image: '{{ asset('storage/products/header3.png') }}', 
+                image: '{{ asset('storage/ui/header3.png') }}', 
                 slogan: 'Pedasnya Khas', 
                 subSlogan: 'Gurihnya Juara' 
             },
             { 
-                image: '{{ asset('storage/products/header4.png') }}', 
+                image: '{{ asset('storage/ui/header4.png') }}', 
                 slogan: 'Elegansi Warisan Bangsa', 
                 subSlogan: 'Gaya Masa Kini' 
             }
@@ -59,23 +59,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Search and Filters -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-12">
-                <div class="p-6 bg-white">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-12">
+                <div class="p-6 bg-white dark:bg-gray-800">
                     <form action="{{ route('catalog.index') }}" method="GET" class="space-y-4">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Search -->
                             <div class="flex-1">
-                                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                                <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search</label>
                                 <input type="text" name="search" id="search" value="{{ $search ?? '' }}" 
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                                     placeholder="Search products...">
                             </div>
                             
                             <!-- Category Filter -->
                             <div class="w-full md:w-1/4">
-                                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
                                 <select name="category" id="category" 
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                                     <option value="">All Categories</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" @selected($categoryId == $category->id)>
@@ -87,9 +87,9 @@
                             
                             <!-- Sort Order -->
                             <div class="w-full md:w-1/4">
-                                <label for="sort" class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                                <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
                                 <select name="sort" id="sort" 
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                                     <option value="newest" @selected($sort === 'newest')>Newest</option>
                                     <option value="price_low" @selected($sort === 'price_low')>Price: Low to High</option>
                                     <option value="price_high" @selected($sort === 'price_high')>Price: High to Low</option>
@@ -111,16 +111,16 @@
             <div class="my-16 space-y-16 mb-12">
                 <!-- Fashion Section -->
                 @if($fashionProducts->isNotEmpty())
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 items-center">
                         <div class="order-2 md:order-1 p-8 md:p-12">
-                            <h2 class="text-3xl font-bold text-gray-800">Gaya & Elegansi Batik</h2>
-                            <p class="mt-4 text-gray-600">Setiap helai menceritakan sebuah kisah. Temukan koleksi fashion batik kami yang memadukan tradisi dengan gaya modern.</p>
+                            <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">Gaya & Elegansi Batik</h2>
+                            <p class="mt-4 text-gray-600 dark:text-gray-300">Setiap helai menceritakan sebuah kisah. Temukan koleksi fashion batik kami yang memadukan tradisi dengan gaya modern.</p>
                             <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 @foreach($fashionProducts as $product)
-                                    <div class="border rounded-lg p-3 hover:shadow-md transition-shadow">
+                                    <div class="border dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow">
                                         <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="h-32 w-full object-cover rounded-md mb-3">
-                                        <h4 class="font-semibold text-sm">{{ $product->name }}</h4>
+                                        <h4 class="font-semibold text-sm dark:text-white">{{ $product->name }}</h4>
                                         <p class="text-primary-600 font-bold text-sm">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                     </div>
                                 @endforeach
@@ -130,7 +130,7 @@
                             </a>
                         </div>
                         <div class="order-1 md:order-2">
-                            <img src="{{ asset('storage/products/model1.png') }}" alt="Model wearing Batik" class="h-full w-full object-cover">
+                            <img src="{{ asset('storage/ui/model1.png') }}" alt="Model wearing Batik" class="h-full w-full object-cover">
                         </div>
                     </div>
                 </div>
@@ -138,19 +138,19 @@
 
                 <!-- Food Section -->
                 @if($foodProducts->isNotEmpty())
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 items-center">
                         <div>
-                            <img src="{{ asset('storage/products/model3.png') }}" alt="Model with Food" class="h-full w-full object-cover">
+                            <img src="{{ asset('storage/ui/model3.png') }}" alt="Model with Food" class="h-full w-full object-cover">
                         </div>
                         <div class="p-8 md:p-12">
-                            <h2 class="text-3xl font-bold text-gray-800">Cita Rasa Khas Nusantara</h2>
-                            <p class="mt-4 text-gray-600">Dari biji kopi pilihan hingga sambal warisan, nikmati rasa otentik yang tak terlupakan dari dapur kami.</p>
+                            <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">Cita Rasa Khas Nusantara</h2>
+                            <p class="mt-4 text-gray-600 dark:text-gray-300">Dari biji kopi pilihan hingga sambal warisan, nikmati rasa otentik yang tak terlupakan dari dapur kami.</p>
                             <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 @foreach($foodProducts as $product)
-                                    <div class="border rounded-lg p-3 hover:shadow-md transition-shadow">
+                                    <div class="border dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow">
                                         <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="h-32 w-full object-cover rounded-md mb-3">
-                                        <h4 class="font-semibold text-sm">{{ $product->name }}</h4>
+                                        <h4 class="font-semibold text-sm dark:text-white">{{ $product->name }}</h4>
                                         <p class="text-primary-600 font-bold text-sm">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                     </div>
                                 @endforeach
@@ -165,35 +165,35 @@
             </div>
             
             <!-- Products Grid -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-12">
-                <div class="p-6 bg-white">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-12">
+                <div class="p-6 bg-white dark:bg-gray-800">
                     @if($products->count() > 0)
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             @foreach($products as $product)
-                                <div class="group relative bg-white rounded-lg shadow overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-                                    <div class="aspect-w-3 aspect-h-2 bg-gray-200 w-full overflow-hidden">
+                                <div class="group relative bg-white dark:bg-gray-700 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
+                                    <div class="aspect-w-3 aspect-h-2 bg-gray-200 dark:bg-gray-600 w-full overflow-hidden">
                                         @if($product->image_path)
                                             <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" 
                                                 class="w-full h-48 object-cover object-center group-hover:opacity-75">
                                         @else
-                                            <div class="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-400">
+                                            <div class="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-500 text-gray-400 dark:text-gray-300">
                                                 No Image
                                             </div>
                                         @endif
                                     </div>
                                     
                                     <div class="p-4">
-                                        <h3 class="text-sm font-medium text-gray-900">
+                                        <h3 class="text-sm font-medium text-gray-900 dark:text-white">
                                             <a href="{{ route('catalog.show', $product) }}">
                                                 <span aria-hidden="true" class="absolute inset-0"></span>
                                                 {{ $product->name }}
                                             </a>
                                         </h3>
-                                        <p class="mt-1 text-xs text-gray-500">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
-                                        <p class="mt-2 text-sm font-bold text-gray-900">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
+                                        <p class="mt-2 text-sm font-bold text-gray-900 dark:text-white">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                         
                                         <div class="mt-3 flex justify-between items-center">
-                                            <div class="text-xs text-gray-500">
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">
                                                 @if($product->stock > 0)
                                                     <span class="text-green-600">In Stock ({{ $product->stock }})</span>
                                                 @else
@@ -229,11 +229,11 @@
                         </div>
                     @else
                         <div class="text-center py-12">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
-                            <h3 class="mt-2 text-lg font-medium text-gray-900">No products found</h3>
-                            <p class="mt-1 text-sm text-gray-500">
+                            <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No products found</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                 Try adjusting your search or filter to find what you're looking for.
                             </p>
                         </div>

@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <!-- Welcome Message -->
+    <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Create Your Account</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Join us and start shopping.</p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
