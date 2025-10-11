@@ -8,11 +8,15 @@ use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Catalog Routes (Public)
 Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/products/{product}', [CatalogController::class, 'show'])->name('catalog.show');
+
+// Email availability check for registration
+Route::post('/check-email-availability', [UserController::class, 'checkEmailAvailability']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
