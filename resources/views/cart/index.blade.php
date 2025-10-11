@@ -43,7 +43,7 @@
                                                     <p class="text-gray-900 whitespace-no-wrap">Rp {{ number_format($item->price, 0, ',', '.') }}</p>
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <form action="{{ route('cart.update', $item) }}" method="POST" class="flex justify-center">
+                                                    <form action="{{ route('cart.update', $item) }}" method="POST" class="flex justify-center" data-ajax="cart-update">
                                                         @csrf
                                                         @method('PATCH')
                                                         <input name="qty" type="number" value="{{ $item->qty }}" min="1" class="w-16 rounded border-gray-300 text-center">
@@ -51,10 +51,10 @@
                                                     </form>
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                                                    <p class="text-gray-900 whitespace-no-wrap font-semibold">Rp {{ number_format($item->price * $item->qty, 0, ',', '.') }}</p>
+                                                    <p class="text-gray-900 whitespace-no-wrap font-semibold cart-row-total">Rp {{ number_format($item->price * $item->qty, 0, ',', '.') }}</p>
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                                    <form action="{{ route('cart.destroy', $item) }}" method="POST">
+                                                    <form action="{{ route('cart.destroy', $item) }}" method="POST" data-ajax="cart-remove">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="text-gray-500 hover:text-red-600" title="Remove item">
@@ -76,7 +76,7 @@
                             <div class="w-full max-w-sm">
                                 <div class="flex justify-between text-lg font-medium text-gray-900">
                                     <p>Subtotal</p>
-                                    <p>Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
+                                    <p class="cart-subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                 <div class="mt-6">

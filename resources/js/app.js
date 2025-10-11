@@ -9,6 +9,8 @@ import './components/miniCart';
 
 // Import small add-to-cart helper which will wire product forms to AJAX
 import './components/addToCart';
+// Import cart actions (update/remove) for AJAX behavior on cart page
+import './components/cartActions';
 
 Alpine.start();
 
