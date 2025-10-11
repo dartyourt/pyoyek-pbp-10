@@ -107,7 +107,8 @@
                 </div>
             </div>
 
-            <!-- Promotional Sections -->
+            <!-- Promotional Sections (only show when no filters are active) -->
+            @if(!request('search') && !request('category') && !request('sort'))
             <div class="my-16 space-y-16 mb-12">
                 <!-- Fashion Section -->
                 @if($fashionProducts->isNotEmpty())
@@ -163,6 +164,7 @@
                 </div>
                 @endif
             </div>
+            @endif
             
             <!-- Products Grid -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-12">
