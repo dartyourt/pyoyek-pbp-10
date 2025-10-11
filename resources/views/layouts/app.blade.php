@@ -41,10 +41,16 @@
             </main>
         </div>
         
-        <!-- in-page toast (listens for window 'toast' events) -->
-        <div x-data="{ show:false, message:'', type:'info' }" x-on:toast.window="message = $event.detail.message; type = $event.detail.type || 'info'; show = true; setTimeout(()=> show = false, 3500)" class="fixed bottom-6 right-6 z-50">
-            <div x-show="show" x-transition class="max-w-xs w-80 px-4 py-3 rounded shadow-lg" :class="{ 'bg-green-600 text-white': type==='success', 'bg-red-600 text-white': type==='error', 'bg-gray-800 text-white': type==='info' }">
-                <div x-text="message"></div>
+        <!-- in-page toast (listens for window 'toast' events). Supports optional undo -->
+        <div x-data="{ show:false, message:'', type:'info', undoToken:null }" x-on:toast.window="message = $event.detail.message; type = $event.detail.type || 'info'; undoToken = $event.detail.undoToken || null; show = true; if ($event.detail.duration) { setTimeout(()=> show = false, $event.detail.duration) } else { setTimeout(()=> show = false, 3500) }" class="fixed bottom-6 right-6 z-50">
+            <div x-show="show" x-transition class="max-w-xs w-80 px-4 py-3 rounded shadow-lg flex items-center justify-between space-x-4" :class="{ 'bg-green-600 text-white': type==='success', 'bg-red-600 text-white': type==='error', 'bg-gray-800 text-white': type==='info' }">
+                <div class="flex-1">
+                    <div x-text="message"></div>
+                </div>
+                <div class="flex items-center">
+                    <button x-show="undoToken" x-on:click.prevent="$dispatch('undo', { token: undoToken }); show = false" class="ml-2 text-sm underline">Undo</button>
+                    <button x-on:click.prevent="show = false" class="ml-2 text-sm">✕</button>
+                </div>
             </div>
         </div>
     </body>

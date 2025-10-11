@@ -154,9 +154,11 @@ class CartController extends Controller
                 'id' => $item->id,
                 'product_id' => $item->product_id,
                 'product_name' => optional($item->product)->name,
+                'product_image_path' => optional($item->product)->image_path,
                 'qty' => $item->qty,
                 'price' => $item->price,
                 'total' => $item->price * $item->qty,
+                'line_total' => $item->price * $item->qty,
             ];
         })->toArray();
 
