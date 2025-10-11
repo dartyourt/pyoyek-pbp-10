@@ -27,6 +27,26 @@ class OrderController extends Controller
     }
 
     /**
+     * Confirm order received by user
+     */
+    public function confirmReceived(Order $order)
+    {
+        // Ensure order belongs to current user
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Only allow if status is 'dikirim'
+        if ($order->status !== 'dikirim') {
+            return redirect()->back()->with('error', 'Order tidak dapat dikonfirmasi diterima.');
+        }
+
+        $order->update(['status' => 'selesai']);
+
+        return redirect()->back()->with('success', 'Order telah dikonfirmasi diterima. Terima kasih!');
+    }
+
+    /**
      * Show specific order details
      */
     public function show(Order $order)

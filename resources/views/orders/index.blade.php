@@ -53,10 +53,21 @@
                                         <div class="flex items-center gap-3">
                                             <span class="px-3 py-1 rounded-full text-xs font-medium
                                                 @if($order->status === 'dikirim') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                                @elseif($order->status === 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                                @elseif($order->status === 'diproses') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                                @elseif($order->status === 'selesai') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
                                                 @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 @endif">
                                                 {{ ucfirst($order->status) }}
                                             </span>
+                                            @if($order->status === 'dikirim')
+                                                <form action="{{ route('orders.confirmReceived', $order) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <button type="submit" 
+                                                            class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-green-600 hover:bg-green-700 transition whitespace-nowrap"
+                                                            onclick="return confirm('Apakah Anda yakin barang sudah diterima?')">
+                                                        Konfirmasi Diterima
+                                                    </button>
+                                                </form>
+                                            @endif
                                             <a href="{{ route('orders.show', $order) }}" 
                                                class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition whitespace-nowrap">
                                                 View Details

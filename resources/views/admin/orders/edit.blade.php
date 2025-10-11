@@ -31,7 +31,6 @@
                             <select name="status" id="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                                 <option value="diproses" {{ $order->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
                                 <option value="dikirim" {{ $order->status == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-                                <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                 <option value="batal" {{ $order->status == 'batal' ? 'selected' : '' }}>Batal</option>
                             </select>
                             @error('status') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
