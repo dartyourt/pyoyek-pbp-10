@@ -2,6 +2,15 @@
 (function () {
     document.addEventListener('DOMContentLoaded', () => {
 
+        // simple debounce helper
+        function debounce(fn, wait = 250) {
+            let t;
+            return function (...args) {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), wait);
+            };
+        }
+
         // helper: render cart table body from server JSON
         function renderCartFromData(cart) {
             if (!cart || !Array.isArray(cart.items)) return;
@@ -49,7 +58,7 @@
                             <form action="/cart/items/${cartItemId}" method="POST" class="flex justify-center" data-ajax="cart-update">
                                 <input name="_method" type="hidden" value="PATCH">
                                 <input name="qty" type="number" value="${qty}" min="1" class="w-16 rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 text-center">
-                                <button type="submit" class="ml-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-bold">UPDATE</button>
+                                <button type="submit" class="ml-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-bold hidden">UPDATE</button>
                             </form>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white dark:bg-gray-800 text-sm text-right">
@@ -157,6 +166,22 @@
                             qtyInput.setAttribute('value', qtyInput.value);
                         });
                 });
+
+                // Add auto-update on input with debounce and on blur
+                const qtyInput = newForm.querySelector('input[name="qty"]');
+                if (qtyInput) {
+                    const triggerSubmit = debounce(() => {
+                        // only submit if value changed against data-value (value attr)
+                        const prev = parseInt(qtyInput.getAttribute('value') || qtyInput.defaultValue || qtyInput.value, 10);
+                        const current = parseInt(qtyInput.value, 10);
+                        if (prev !== current) {
+                            newForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                        }
+                    }, 700);
+
+                    qtyInput.addEventListener('input', () => triggerSubmit());
+                    qtyInput.addEventListener('blur', () => triggerSubmit());
+                }
             });
         }
 

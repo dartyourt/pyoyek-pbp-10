@@ -47,7 +47,7 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <input name="qty" type="number" value="{{ $item->qty }}" min="1" class="w-16 rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 text-center">
-                                                        <button type="submit" class="ml-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-bold">UPDATE</button>
+                                                        <button type="submit" class="ml-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-bold hidden">UPDATE</button>
                                                     </form>
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-right">
