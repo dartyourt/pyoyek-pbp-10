@@ -4,13 +4,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category');
     const sortSelect = document.getElementById('sort');
     const searchForm = document.getElementById('searchForm');
-    const productsContainer = document.querySelector('.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+    // Selector yang lebih fleksibel untuk menemukan container produk
+    const productsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
     
     // Find banner elements
     const heroHeaderCarousel = document.querySelector('[x-data*="slides"]'); // Hero carousel
     const promotionalSections = document.querySelector('.my-16.space-y-16.mb-12'); // Promotional sections
     
-    if (!searchInput || !productsContainer) return;
+    if (!searchInput) return;
+    if (!productsContainer) {
+        console.error('Products container not found. Selector: .grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+        return;
+    }
     
     // Prevent form submission on Enter key (since we're doing AJAX search)
     if (searchForm) {
@@ -23,9 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let typingTimer;
     const doneTypingInterval = 300; // ms wait after user stops typing
     
-    // Add loading indicator
+        // Add loading indicator
     const loadingIndicator = document.createElement('div');
     loadingIndicator.className = 'hidden w-full py-8 text-center text-gray-600 dark:text-gray-300';
+    loadingIndicator.id = 'search-loading-indicator'; // Tambahkan ID untuk debugging
     loadingIndicator.innerHTML = `
         <svg class="animate-spin h-8 w-8 mx-auto text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -33,9 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </svg>
         <p class="mt-2">Searching...</p>
     `;
-    productsContainer.parentNode.insertBefore(loadingIndicator, productsContainer.nextSibling);
-
-    // Events for the search input
+    
+    if (productsContainer && productsContainer.parentNode) {
+        productsContainer.parentNode.insertBefore(loadingIndicator, productsContainer.nextSibling);
+    } else {
+        console.error('Could not insert loading indicator - productsContainer or its parent is null');
+    }    // Events for the search input
     searchInput.addEventListener('input', function() {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(performSearch, doneTypingInterval);
@@ -91,9 +100,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (category) url.searchParams.append('category', category);
         url.searchParams.append('sort', sort);
         
+        // Debug info - lihat URL yang digunakan untuk troubleshooting
+        console.log('Search URL:', url.toString());
+        
         fetch(url.toString())
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
+                // Debug info - lihat respon API
+                console.log('Search response:', data);
+                
                 // Update URL with search params (without reloading)
                 const pageUrl = new URL('/catalog', window.location.origin);
                 if (query) pageUrl.searchParams.append('search', query);
