@@ -5,7 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortSelect = document.getElementById('sort');
     const searchForm = document.getElementById('searchForm');
     // Selector yang lebih fleksibel untuk menemukan container produk
-    const productsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+    // Coba beberapa selector yang mungkin berbeda di antara template yang berbeda
+    let productsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+    
+    // Fallback selectors jika selector utama tidak ditemukan
+    if (!productsContainer) {
+        console.log("Trying fallback selector 1");
+        productsContainer = document.querySelector('.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+    }
+    
+    if (!productsContainer) {
+        console.log("Trying fallback selector 2");
+        productsContainer = document.querySelector('.grid.gap-6');
+    }
     
     // Find banner elements
     const heroHeaderCarousel = document.querySelector('[x-data*="slides"]'); // Hero carousel
@@ -102,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Debug info - lihat URL yang digunakan untuk troubleshooting
         console.log('Search URL:', url.toString());
+        console.log('Products container found:', productsContainer ? 'Yes' : 'No');
         
         fetch(url.toString())
             .then(response => {
@@ -134,6 +147,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
+    // Menyimpan referensi ke elemen "No Results" di luar fungsi agar tidak tergantung pada konteks 'this'
+    let noResultsElement = null;
+    
     function updateProductsGrid(products) {
         // Clear the current products
         productsContainer.innerHTML = '';
@@ -145,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create a full-width absolutely centered message that spans the entire container
             const noResultsDiv = document.createElement('div');
             noResultsDiv.className = 'w-full flex items-center justify-center py-16';
+            noResultsDiv.id = 'no-results-message'; // Tambahkan ID untuk mudah diidentifikasi
             noResultsDiv.innerHTML = `
                 <div class="text-center w-full max-w-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -162,13 +179,13 @@ document.addEventListener('DOMContentLoaded', function() {
             productsContainer.style.display = 'none';
             
             // Store the reference to remove it later when results are found
-            this.noResultsElement = noResultsDiv;
+            noResultsElement = noResultsDiv;
             return;
         } else {
             // If we previously added a no results message, remove it
-            if (this.noResultsElement && this.noResultsElement.parentNode) {
-                this.noResultsElement.parentNode.removeChild(this.noResultsElement);
-                this.noResultsElement = null;
+            const existingNoResults = document.getElementById('no-results-message');
+            if (existingNoResults) {
+                existingNoResults.parentNode.removeChild(existingNoResults);
             }
             productsContainer.style.display = 'grid';
         }
