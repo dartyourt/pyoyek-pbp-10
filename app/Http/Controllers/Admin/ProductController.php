@@ -52,6 +52,8 @@ class ProductController extends Controller
         $data = $request->all();
         unset($data['image']);
 
+        $data['is_active'] = $request->has('is_active');
+
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('products', 'public');
         }
@@ -95,6 +97,8 @@ class ProductController extends Controller
 
         $data = $request->all();
         unset($data['image']);
+
+        $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
             // Delete old image

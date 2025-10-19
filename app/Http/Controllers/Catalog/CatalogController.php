@@ -21,6 +21,9 @@ class CatalogController extends Controller
 
         // Base query
         $query = Product::query();
+        
+        // Only show active products in the catalog
+        $query->where('is_active', true);
 
         // Filter by category if provided
         if ($categoryId) {
@@ -62,8 +65,15 @@ class CatalogController extends Controller
         $fashionCategory = Category::where('name', 'Fashion')->first();
         $foodCategory = Category::where('name', 'Makanan & Minuman')->first();
 
-        $fashionProducts = $fashionCategory ? Product::where('category_id', $fashionCategory->id)->take(2)->get() : collect();
-        $foodProducts = $foodCategory ? Product::where('category_id', $foodCategory->id)->take(2)->get() : collect();
+        $fashionProducts = $fashionCategory ? Product::where('category_id', $fashionCategory->id)
+            ->where('is_active', true)
+            ->take(2)
+            ->get() : collect();
+            
+        $foodProducts = $foodCategory ? Product::where('category_id', $foodCategory->id)
+            ->where('is_active', true)
+            ->take(2)
+            ->get() : collect();
 
         return view('catalog.index', compact(
             'products', 'categories', 'categoryId', 'search', 'sort', 
@@ -76,9 +86,14 @@ class CatalogController extends Controller
      */
     public function show(Product $product)
     {
-        // Get related products from the same category
+        // Redirect if product is inactive
+        if (!$product->is_active) {
+            return redirect()->route('catalog.index')->with('error', 'Product is not available.');
+        }
+        // Get related products from the same category (only active ones)
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
+            ->where('is_active', true)
             ->limit(4)
             ->get();
 
