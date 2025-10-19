@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
                             {{ session('success') }}
                         </div>
                     @endif
@@ -31,7 +31,7 @@
                     </form>
 
                     <div class="overflow-x-auto">
-                        <table class="min-w-full table-auto">
+                        <table class="min-w-full table-auto bg-white dark:bg-gray-800">
                             <thead>
                                 <tr class="bg-gray-50 dark:bg-gray-700">
                                     <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Order ID</th>
@@ -42,12 +42,12 @@
                                     <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 @forelse($orders as $order)
-                                    <tr class="border-t dark:border-gray-700">
-                                        <td class="px-4 py-2">#{{ $order->id }}</td>
-                                        <td class="px-4 py-2">{{ $order->user->name }}</td>
-                                        <td class="px-4 py-2">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">#{{ $order->id }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $order->user->name }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                                         <td class="px-4 py-2">
                                             <span class="px-2 py-1 rounded text-xs 
                                                 @if($order->status == 'diproses') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
@@ -58,7 +58,7 @@
                                                 {{ ucfirst($order->status) }}
                                             </span>
                                         </td>
-                                        <td class="px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $order->created_at->format('d M Y') }}</td>
                                         <td class="px-4 py-2">
                                             <a href="{{ route('admin.orders.show', $order) }}" class="text-blue-600 dark:text-blue-400 hover:underline mr-2">View</a>
                                             <a href="{{ route('admin.orders.edit', $order) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Update Status</a>
@@ -66,7 +66,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="px-4 py-2 text-center">No orders found.</td>
+                                        <td colspan="6" class="px-4 py-2 text-center text-gray-500 dark:text-gray-400">No orders found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

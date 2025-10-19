@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Manage Products') }}
             </h2>
-            <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
                 Add New Product
             </a>
         </div>
@@ -15,22 +15,22 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     <!-- Search Form -->
                     <form method="GET" action="{{ route('admin.products.index') }}" class="mb-4 flex gap-2">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by product name..." class="flex-1 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm px-3 py-2">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by product name..." class="flex-1 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm px-3 py-2 focus:border-blue-500 focus:ring-blue-500">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">Search</button>
                         @if(request('search'))
-                            <a href="{{ route('admin.products.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Clear</a>
+                            <a href="{{ route('admin.products.index') }}" class="bg-gray-500 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">Clear</a>
                         @endif
                     </form>
 
                     <div class="overflow-x-auto">
-                        <table class="min-w-full table-auto">
+                        <table class="min-w-full table-auto bg-white dark:bg-gray-800">
                             <thead>
                                 <tr class="bg-gray-50 dark:bg-gray-700">
                                     <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Image</th>
@@ -42,9 +42,9 @@
                                     <th class="px-4 py-2 text-left text-gray-600 dark:text-gray-300">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 @forelse($products as $product)
-                                    <tr class="border-t dark:border-gray-700">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                         <td class="px-4 py-2">
                                             @if($product->image_path)
                                                 <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded">
@@ -54,10 +54,10 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-2">{{ $product->name }}</td>
-                                        <td class="px-4 py-2">{{ $product->category->name }}</td>
-                                        <td class="px-4 py-2">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                                        <td class="px-4 py-2">{{ $product->stock }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $product->name }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $product->category->name }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                        <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $product->stock }}</td>
                                         <td class="px-4 py-2">
                                             <span class="px-2 py-1 rounded text-xs {{ $product->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
                                                 {{ $product->is_active ? 'Active' : 'Inactive' }}
@@ -75,7 +75,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-4 py-2 text-center">No products found.</td>
+                                        <td colspan="7" class="px-4 py-2 text-center text-gray-500 dark:text-gray-400">No products found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
