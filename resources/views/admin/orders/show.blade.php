@@ -264,20 +264,7 @@
                                                             Rp {{ number_format($order->total, 0, ',', '.') }}
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="3" class="px-3 py-2"></td>
-                                                        <td class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Tax:</td>
-                                                        <td class="px-3 py-2 text-right text-sm font-medium text-gray-900 dark:text-white">
-                                                            Rp 0
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3" class="px-3 py-2"></td>
-                                                        <td class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Shipping:</td>
-                                                        <td class="px-3 py-2 text-right text-sm font-medium text-gray-900 dark:text-white">
-                                                            Rp 0
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <tr class="border-t-2 border-gray-300 dark:border-gray-700">
                                                         <td colspan="3" class="px-3 py-2"></td>
                                                         <td class="px-3 py-2 text-right text-sm font-bold text-gray-900 dark:text-white">Total:</td>
