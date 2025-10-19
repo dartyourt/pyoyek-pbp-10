@@ -53,7 +53,7 @@
                     <div class="ml-4 relative">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="p-2 text-gray-600 hover:text-primary-500">
+                                <button class="p-2 text-gray-600 hover:text-primary-500 dark:text-gray-200 dark:hover:text-white">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
@@ -61,7 +61,7 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <div class="px-4 py-2 text-sm text-gray-700">
+                                <div class="px-4 py-2 text-sm text-gray-800 dark:text-gray-200">
                                     {{ Auth::user()->name }}
                                 </div>
                                 <x-dropdown-link :href="route('profile.edit')">
