@@ -61,7 +61,7 @@
             <!-- Search and Filters -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-12">
                 <div class="p-6 bg-white dark:bg-gray-800">
-                    <form action="{{ route('catalog.index') }}" method="GET" class="space-y-4">
+                    <form action="{{ route('catalog.index') }}" method="GET" class="space-y-4" id="searchForm">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Search -->
                             <div class="flex-1">
@@ -98,11 +98,14 @@
                             </div>
                         </div>
                         
-                        <div class="flex justify-end">
-                            <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                                View Matches
-                            </button>
-                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                            <span class="inline-flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                                Results will update automatically as you type or change filters.
+                            </span>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -230,14 +233,16 @@
                             {{ $products->links() }}
                         </div>
                     @else
-                        <div class="text-center py-12">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                            </svg>
-                            <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No products found</h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Try adjusting your search or filter to find what you're looking for.
-                            </p>
+                        <div class="w-full flex items-center justify-center py-20">
+                            <div class="text-center w-full max-w-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                </svg>
+                                <h3 class="mt-4 text-xl font-medium text-gray-900 dark:text-white">No products found</h3>
+                                <p class="mt-2 text-base text-gray-500 dark:text-gray-400">
+                                    Try adjusting your search or filter to find what you're looking for.
+                                </p>
+                            </div>
                         </div>
                     @endif
                 </div>

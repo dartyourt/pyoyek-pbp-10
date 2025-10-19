@@ -11,6 +11,8 @@ import './components/miniCart';
 import './components/addToCart';
 // Import cart actions (update/remove) for AJAX behavior on cart page
 import './components/cartActions';
+// Import live search component
+import './components/liveSearch';
 
 Alpine.start();
 

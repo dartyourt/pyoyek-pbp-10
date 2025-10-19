@@ -18,6 +18,11 @@ Route::get('/products/{product}', [CatalogController::class, 'show'])->name('cat
 // Email availability check for registration
 Route::post('/check-email-availability', [UserController::class, 'checkEmailAvailability']);
 
+// API Routes for AJAX
+Route::prefix('api')->name('api.')->group(function() {
+    Route::get('/search', [App\Http\Controllers\Api\SearchController::class, 'search'])->name('search');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
