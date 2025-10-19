@@ -37,10 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const savedTheme = localStorage.getItem('color-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const initialTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
         
-        applyTheme(initialTheme);
+        // Only use system preference if the user hasn't explicitly set a theme
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initialTheme = prefersDark ? 'dark' : 'light';
+            applyTheme(initialTheme);
+            // Save the initial theme preference to localStorage
+            localStorage.setItem('color-theme', initialTheme);
+        }
 
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';

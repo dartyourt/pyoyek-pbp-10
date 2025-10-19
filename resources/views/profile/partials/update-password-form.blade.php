@@ -54,12 +54,23 @@
             const confirmPasswordInput = document.getElementById('update_password_password_confirmation');
             if (!passwordInput || !confirmPasswordInput) return;
             
+            // Check current theme and force apply appropriate styles
+            function checkTheme() {
+                return document.documentElement.classList.contains('dark');
+            }
+            
             // Listen for theme changes 
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        const isDark = document.documentElement.classList.contains('dark');
+                        // Re-render all requirements with current theme
                         updateAllRequirements();
+                        
+                        // Force update container styles based on current theme
+                        const passwordReqContainers = document.querySelectorAll('.password-requirements');
+                        passwordReqContainers.forEach(container => {
+                            applyThemeToContainer(container);
+                        });
                     }
                 });
             });
@@ -104,17 +115,50 @@
                 updateConfirmPasswordRequirements();
             }
 
-            function addPasswordRequirements() {
-                const requirementsContainer = document.getElementById('password-requirements-container');
-                if (!requirementsContainer) return;
-
-                // Make the container have consistent styling 
-                requirementsContainer.classList.add('password-requirements');
-                requirementsContainer.setAttribute('style', 'margin-top: 0.5rem; font-size: 0.875rem; background-color: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; border: 1px solid #e5e7eb; color: #374151;');
-                
-                // Add dark mode styles with !important to override inline styles
-                const darkModeStyle = document.createElement('style');
-                darkModeStyle.textContent = `
+            // Add global styles for light/dark mode on first run
+            if (!document.getElementById('password-requirements-styles')) {
+                const styleElement = document.createElement('style');
+                styleElement.id = 'password-requirements-styles';
+                styleElement.textContent = `
+                    /* Light mode styles */
+                    .password-requirements {
+                        margin-top: 0.5rem; 
+                        font-size: 0.875rem; 
+                        background-color: #f9fafb; 
+                        padding: 0.75rem; 
+                        border-radius: 0.375rem; 
+                        border: 1px solid #e5e7eb; 
+                        color: #374151;
+                    }
+                    .password-requirement {
+                        display: flex; 
+                        align-items: center; 
+                        margin-bottom: 0.5rem; 
+                        color: #6b7280;
+                    }
+                    .password-requirement-header {
+                        font-weight: 500; 
+                        margin-bottom: 0.5rem; 
+                        color: #374151;
+                    }
+                    .password-requirement-met {
+                        color: #059669;
+                        font-weight: 500;
+                    }
+                    .password-requirement-icon {
+                        height: 1.25rem;
+                        width: 1.25rem;
+                        margin-right: 0.5rem;
+                        stroke: #6b7280;
+                    }
+                    .password-requirement-icon-met {
+                        height: 1.25rem;
+                        width: 1.25rem;
+                        margin-right: 0.5rem;
+                        fill: #059669;
+                    }
+                    
+                    /* Dark mode styles */
                     .dark .password-requirements {
                         background-color: #334155 !important;
                         border-color: #475569 !important;
@@ -136,15 +180,25 @@
                         fill: #4ade80 !important;
                     }
                 `;
-                document.head.appendChild(darkModeStyle);
+                document.head.appendChild(styleElement);
+            }
+            
+            function addPasswordRequirements() {
+                const requirementsContainer = document.getElementById('password-requirements-container');
+                if (!requirementsContainer) return;
+
+                // Add appropriate classes for styling
+                requirementsContainer.classList.add('password-requirements');
+                applyThemeToContainer(requirementsContainer);
 
                 const header = document.createElement('p');
                 header.classList.add('password-requirement-header');
-                header.setAttribute('style', 'font-weight: 500; margin-bottom: 0.5rem; color: #374151;');
                 header.textContent = 'Password requirements:';
 
                 const requirementsList = document.createElement('ul');
-                requirementsList.setAttribute('style', 'list-style-type: none; padding: 0; margin: 0;');
+                requirementsList.style.listStyleType = 'none';
+                requirementsList.style.padding = '0';
+                requirementsList.style.margin = '0';
 
                 const requirements = [
                     { id: 'req-length', text: 'At least 8 characters' },
@@ -158,12 +212,10 @@
                     const item = document.createElement('li');
                     item.id = req.id;
                     item.classList.add('password-requirement');
-                    item.setAttribute('style', 'display: flex; align-items: center; margin-bottom: 0.5rem; color: #6b7280;');
                     item.setAttribute('data-text', req.text);
 
                     const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     icon.classList.add('password-requirement-icon');
-                    icon.setAttribute('style', 'height: 1.25rem; width: 1.25rem; margin-right: 0.5rem;');
                     icon.setAttribute('fill', 'none');
                     icon.setAttribute('viewBox', '0 0 24 24');
                     icon.setAttribute('stroke', 'currentColor');
@@ -194,20 +246,20 @@
 
                 // Make the container have consistent styling
                 requirementsContainer.classList.add('password-requirements');
-                requirementsContainer.setAttribute('style', 'margin-top: 0.5rem; font-size: 0.875rem; background-color: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; border: 1px solid #e5e7eb;');
+                applyThemeToContainer(requirementsContainer);
                 
                 const requirementsList = document.createElement('ul');
-                requirementsList.setAttribute('style', 'list-style-type: none; padding: 0; margin: 0;');
+                requirementsList.style.listStyleType = 'none';
+                requirementsList.style.padding = '0';
+                requirementsList.style.margin = '0';
 
                 const item = document.createElement('li');
                 item.id = 'req-confirm-match';
                 item.classList.add('password-requirement');
-                item.setAttribute('style', 'display: flex; align-items: center; margin-bottom: 0.5rem; color: #6b7280;');
                 item.setAttribute('data-text', 'Passwords must match');
 
                 const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 icon.classList.add('password-requirement-icon');
-                icon.setAttribute('style', 'height: 1.25rem; width: 1.25rem; margin-right: 0.5rem;');
                 icon.setAttribute('fill', 'none');
                 icon.setAttribute('viewBox', '0 0 24 24');
                 icon.setAttribute('stroke', 'currentColor');
@@ -262,6 +314,19 @@
                 updateRequirementItem('req-confirm-match', isMatch);
             }
 
+            // Apply theme styling to a requirement container
+            function applyThemeToContainer(container) {
+                // Clear any inline styles that might override our CSS classes
+                container.removeAttribute('style');
+                container.style.display = 'block';
+            }
+            
+            // Apply theme styling to a requirement item based on current theme
+            function applyThemeToRequirement(item) {
+                // Remove any inline styles that might override our CSS classes
+                item.removeAttribute('style');
+            }
+            
             function updateRequirementItem(id, isMet) {
                 const item = document.getElementById(id);
                 if (!item) return;
@@ -274,12 +339,10 @@
                     }
 
                     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                    svg.setAttribute('style', 'height: 1.25rem; width: 1.25rem; margin-right: 0.5rem;');
 
                     if (isMet) {
                         svg.classList.add('password-requirement-icon-met');
                         svg.setAttribute('viewBox', '0 0 20 20');
-                        svg.setAttribute('fill', '#059669'); // Default green for light mode
                         
                         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                         path.setAttribute('fill-rule', 'evenodd');
@@ -289,13 +352,11 @@
                         svg.appendChild(path);
 
                         item.classList.add('password-requirement-met');
-                        item.style.color = '#059669'; // Default green for light mode
-                        item.style.fontWeight = '500';
                     } else {
                         svg.classList.add('password-requirement-icon');
                         svg.setAttribute('viewBox', '0 0 24 24');
                         svg.setAttribute('fill', 'none');
-                        svg.setAttribute('stroke', '#6b7280'); // Default gray for light mode
+                        svg.setAttribute('stroke', 'currentColor');
 
                         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                         path.setAttribute('stroke-linecap', 'round');
@@ -306,8 +367,6 @@
                         svg.appendChild(path);
 
                         item.classList.remove('password-requirement-met');
-                        item.style.color = '#6b7280'; // Default gray for light mode
-                        item.style.fontWeight = 'normal';
                     }
 
                     const textNode = document.createTextNode(text);
